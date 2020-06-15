@@ -7,14 +7,14 @@ class LocationCard extends Component {
   render() {
     return (
       <div>
-        <span className="badge badge-success m-5"> {this.state.count}</span>
-        <button onClick={this.incrementCount} className=" btn btn-primary "> Click here </button>
+        <img src={require("../assets/T_3.svg")} alt="im" />
+        
       </div>
     );
   }
-  incrementCount = () => {
-    this.setState({ count: this.state.count + 1 });
-  };
+  // incrementCount = () => {
+  //   this.setState({ count: this.state.count + 1 });
+  // };
 }
 
 export default LocationCard;
