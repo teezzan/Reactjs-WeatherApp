@@ -3,18 +3,21 @@ import './App.css';
 import { Fab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
-
-
+// import WbSunnyTwoToneIcon from '@material-ui/icons/WbSunnyTwoTone';
+// import FilterDramaTwoToneIcon from '@material-ui/icons/FilterDramaTwoTone';
+import { WiDayCloudyWindy, WiDaySunnyOvercast, WiSunrise, WiThermometer, WiBarometer } from "react-icons/wi";
 class MainComp extends Component {
   state = {
-    temp: 5,
-    weather: "Sunny"
+    temp: 25,
+    weather: "Sunny",
+    location: "Lagos, Nigeria",
+    accent: "purple"
   }
   fabstyle = {
     margin: 0,
     top: 'auto',
     right: 20,
-    bottom: 200,
+    bottom: 220,
     left: 'auto',
     position: 'fixed',
   };
@@ -30,30 +33,31 @@ class MainComp extends Component {
       <div>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <h1>hii</h1>
+            <h1 style={{ color: this.state.accent }}>{this.state.location}</h1>
           </Grid>
         </Grid>
 
-        <Grid container spacing={1}>
+        <Grid container justify="center"
+          alignItems="center" spacing={1}>
           <Grid item xs={2}>
-            30
-          <AddIcon color="primary" />
+            <div>10</div>
+            <div><WiSunrise style={{ fontSize: 40, color: this.state.accent }} /></div>
           </Grid>
           <Grid item xs={2}>
-            20
-          <AddIcon color="primary" />
+            <div>10</div>
+            <div><WiBarometer style={{ fontSize: 40, color: this.state.accent }} /></div>
           </Grid>
           <Grid item xs={2}>
-            10
-          <AddIcon color="primary" />
+            <div>10</div>
+            <div><WiThermometer style={{ fontSize: 40, color: this.state.accent }} /></div>
           </Grid>
           <Grid item xs={2}>
-            5
-          <AddIcon color="primary" />
+            <div>10</div>
+            <div><WiDaySunnyOvercast style={{ fontSize: 40, color: this.state.accent }} /></div>
           </Grid>
           <Grid item xs={2}>
-            55
-          <AddIcon color="primary" />
+            <div>10</div>
+            <div><WiDayCloudyWindy style={{ fontSize: 40, color: this.state.accent }} /></div>
           </Grid>
         </Grid>
       </div>

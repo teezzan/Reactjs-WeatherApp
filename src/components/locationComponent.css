@@ -1,0 +1,21 @@
+.locationCard {
+  /* background-position: 0 -50px; */
+  padding: 5%;
+  height: 7.375rem;
+  background-image: url("../assets/T_3.svg");
+  background-size: cover;
+  color: white;
+  text-align: left;
+  border: black;
+  border-radius: 5%;
+}
+.temp {
+  position: relative;
+  font-size: 3.575rem;
+}
+.deg {
+  position: absolute;
+  top: 10px;
+  font-size: 1.05rem;
+  font-weight: bold;
+}

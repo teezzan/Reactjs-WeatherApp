@@ -4,7 +4,7 @@
 .mainImg {
   /* background-position: 0 -50px; */
   padding: 5%;
-  height: 70vh;
+  height: 68vh;
   background-image: url("./assets/T_3.svg");
   background-size: cover;
   clip-path: ellipse(100% 55% at 48% 44%);
