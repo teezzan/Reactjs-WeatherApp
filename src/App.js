@@ -19,7 +19,11 @@ class MainComp extends Component {
     weather: "Sunny",
     location: "Lagos, Nigeria",
     accent: "purple",
-    tray: true
+    tray: true,
+    recent_locations: [
+      { id: 1, name: "Ontario, Canada", temp: 15 },
+      { id: 2, name: "Manchester", temp: 9 },
+      { id: 3, name: "Abeokuta", temp: 25 }]
   }
 
 
@@ -42,7 +46,16 @@ class MainComp extends Component {
   tee = () => {
     alert("✔️ This works on every component!");
   };
-
+  handleSearch = () => {
+    var tee = document.getElementById("searchText").value;
+    console.log(tee);
+    //call api and store into state.
+  }
+  handleremoveRecent = (id) => {
+    console.log(`Cancel from ${id} card`);
+    const newRecent = this.state.recent_locations.filter(c => c.id !== id);
+    this.setState({recent_locations: newRecent});
+  };
   render() {
     if (this.state.tray) {
       return (
@@ -92,13 +105,16 @@ class MainComp extends Component {
 
     else {
       return (
+        
         <div className="container ">
           <div style={{ alignText: "center" }} >
-            <SearchBar onToggle={this.toggle} />
+            <SearchBar onToggle={this.toggle} onSearch={this.handleSearch} />
           </div>
-          <LocationComp location={"Ontario, Canada"} temp={13} />
-          <LocationComp location={"Abeokuta, Nig."} temp={25} />
-          <LocationComp location={"London,UK"} temp={15} />
+          {
+            this.state.recent_locations.map(location => (
+              <LocationComp key={location.id} id={location.id} location={location.name} temp={location.temp} onRemoveRecent={this.handleremoveRecent}/>
+            ))
+          }
         </div>
       );
     }

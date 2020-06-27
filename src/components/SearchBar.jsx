@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function CustomizedInputBase(props) {
   const classes = useStyles();
 
@@ -40,9 +41,13 @@ export default function CustomizedInputBase(props) {
       >
         <AiOutlineArrowLeft />
       </IconButton>
-      <InputBase className={classes.input} placeholder="Search Location" />
-      <IconButton className={classes.iconButton} aria-label="search">
-        <SearchIcon />
+      <InputBase
+        className={classes.input}
+        id="searchText"
+        placeholder="Search Location"
+      />
+      <IconButton className={classes.iconButton} onClick={props.onSearch} aria-label="search">
+        <SearchIcon  />
       </IconButton>
     </Paper>
   );
