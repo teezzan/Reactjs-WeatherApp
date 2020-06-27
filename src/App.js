@@ -16,7 +16,7 @@ import { WiDayCloudyWindy, WiDaySunnyOvercast, WiSunrise, WiThermometer, WiBarom
 class MainComp extends Component {
   state = {
     temp: 25,
-    weather: "Sunny",
+    weather: {},
     location: "Lagos, Nigeria",
     accent: "purple",
     tray: true,
@@ -49,7 +49,24 @@ class MainComp extends Component {
   handleSearch = () => {
     var tee = document.getElementById("searchText").value;
     console.log(tee);
-    //call api and store into state.
+    //call api and store into state.r
+    var axios = require('axios');
+    axios.get('http://api.openweathermap.org/data/2.5/weather', {
+      params: {
+        q:tee,
+        APPID:"a7bec659ed63a41dafea39b7664a0618"
+      }
+    })
+    .then(function (response) {
+      console.log(response);
+      this.setState({
+        weather: response.data.weather[0],
+        main: response.data.main
+      })
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
   }
   handleremoveRecent = (id) => {
     console.log(`Cancel from ${id} card`);
@@ -61,7 +78,7 @@ class MainComp extends Component {
       return (
         <div className="App">
           <div className="mainImg">
-            <h3 className="weather">{this.state.weather}</h3>
+            <h3 className="weather">{this.state.weather.description}</h3>
             <h1 className="temp">{this.state.temp}<span className="deg">o</span> </h1>
           </div>
           <Fab style={this.fabstyle} color="primary" size="large" aria-label="add" onClick={this.toggle} >
