@@ -8,7 +8,7 @@ import LocationComp from "./components/locationComponent"
 import SearchBar from "./components/SearchBar"
 import { WiStrongWind, WiHumidity, WiWindDeg, WiThermometer, WiBarometer } from "react-icons/wi";
 var axios = require('axios');
-
+var cancel = false;
 class MainComp extends Component {
   state = {
     temp: 25,
@@ -18,10 +18,8 @@ class MainComp extends Component {
     wind: {},
     accent: "purple",
     tray: true,
-    recent_locations: [
-      { id: 1, name: "Ontario, Canada", temp: 15 },
-      { id: 2, name: "Manchester", temp: 9 },
-      { id: 3, name: "Abeokuta", temp: 25 }]
+    cancel: false,
+    recent_locations: []
   }
 
 
@@ -56,23 +54,45 @@ class MainComp extends Component {
     })
       .then((response) => {
         console.log(response);
+        var id = response.data.id;
+        var recent_locations = {};
+        const newRecent = this.state.recent_locations.filter(c => c.id === id);
+        console.log(newRecent.length);
+        var num = newRecent.length;
+        if (num === 0) {
+          console.log("herere");
+          recent_locations = this.state.recent_locations.concat({ id: response.data.id, name: `${response.data.name}, ${response.data.sys.country}`, temp: Math.floor(response.data.main.feels_like - 273) });
+
+          if (recent_locations.length > 5) {
+            recent_locations.splice(0, 1);
+          } 
+          this.setState({ recent_locations: recent_locations })
+
+        }
+
+
+        // }
         this.setState({
           weather: response.data.weather[0],
           main: response.data.main,
           location: `${response.data.name}, ${response.data.sys.country}`,
           wind: response.data.wind,
-          tray: true
+          tray: true,
+
         });
+
 
       })
       .catch((error) => {
         console.log(error);
       })
   };
+
   handleremoveRecent = (id) => {
     console.log(`Cancel from ${id} card`);
     const newRecent = this.state.recent_locations.filter(c => c.id !== id);
     this.setState({ recent_locations: newRecent });
+    cancel = true
   };
   get_val = (name) => {
 
@@ -99,7 +119,15 @@ class MainComp extends Component {
   }
   handleOnSelect = (id) => {
     console.log(id);
-    this.get_val(this.state.recent_locations[id-1].name);
+    console.log(cancel);
+
+    if (!cancel) {
+      const find = this.state.recent_locations.filter(c => c.id === id);
+      this.get_val(find[0].name);
+    }
+    // this.setState({ cancel: false });
+    cancel = false
+
   }
   componentDidMount = () => {
     axios.get('http://api.openweathermap.org/data/2.5/weather', {
