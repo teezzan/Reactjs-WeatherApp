@@ -11,10 +11,10 @@ var axios = require('axios');
 var cancel = false;
 class MainComp extends Component {
   state = {
-    temp: 25,
+    temp: null,
     weather: {},
     main: {},
-    location: "Lagos, Nigeria",
+    location: "",
     wind: {},
     accent: "purple",
     tray: true,
@@ -129,36 +129,58 @@ class MainComp extends Component {
     cancel = false
 
   }
+  updateRecent = (id) => {
+    var id_pld = "";
+    for (var i = 0; i < id.length; i++) {
+      id_pld += `${id[i]},`
+    }
+    axios.get('http://api.openweathermap.org/data/2.5/group', {
+      params: {
+        id: id_pld,
+        APPID: "a7bec659ed63a41dafea39b7664a0618",
+        units: "metric"
+      }
+    })
+      .then((response) => {
+        var recent_locations = []
+        for (var i = 0; i < response.data.cnt; i++) {
+          var payload = {
+            id: response.data.list[i].id,
+            temp: Math.floor(response.data.list[i].main.feels_like),
+            name: `${response.data.list[i].name}, ${response.data.list[i].sys.country}`
+          }
+          recent_locations.push(payload);
+        }
+        console.log(response);
+        this.setState({ recent_locations });
+
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
   componentDidMount = () => {
 
     const val = JSON.parse(localStorage.getItem('recent'))
     if (val != null) {
       this.setState({ recent_locations: val });
+      console.log(val);
+
+      this.get_val(val[val.length - 1].name);
+      var id = [];
+      for (var i = 0; i < val.length; i++) {
+        id.push(val[i].id);
+      }
+      console.log(id);
+
+      this.updateRecent(id);
+
     }
-    else{
+    else {
       this.setState({ recent_locations: {} });
     }
 
-    console.log(val);
 
-    axios.get('http://api.openweathermap.org/data/2.5/weather', {
-      params: {
-        q: "Abuja",
-        APPID: "a7bec659ed63a41dafea39b7664a0618"
-      }
-    })
-      .then((response) => {
-        console.log(response);
-        this.setState({
-          weather: response.data.weather[0],
-          main: response.data.main,
-          location: `${response.data.name}, ${response.data.sys.country}`,
-          wind: response.data.wind
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      })
   }
 
   render() {
