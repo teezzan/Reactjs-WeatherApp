@@ -60,14 +60,13 @@ class MainComp extends Component {
         console.log(newRecent.length);
         var num = newRecent.length;
         if (num === 0) {
-          console.log("herere");
           recent_locations = this.state.recent_locations.concat({ id: response.data.id, name: `${response.data.name}, ${response.data.sys.country}`, temp: Math.floor(response.data.main.feels_like - 273) });
 
           if (recent_locations.length > 5) {
             recent_locations.splice(0, 1);
-          } 
+          }
           this.setState({ recent_locations: recent_locations })
-
+          localStorage.setItem('recent', JSON.stringify(recent_locations));
         }
 
 
@@ -92,6 +91,7 @@ class MainComp extends Component {
     console.log(`Cancel from ${id} card`);
     const newRecent = this.state.recent_locations.filter(c => c.id !== id);
     this.setState({ recent_locations: newRecent });
+    localStorage.setItem('recent', JSON.stringify(newRecent));
     cancel = true
   };
   get_val = (name) => {
@@ -130,6 +130,17 @@ class MainComp extends Component {
 
   }
   componentDidMount = () => {
+
+    const val = JSON.parse(localStorage.getItem('recent'))
+    if (val != null) {
+      this.setState({ recent_locations: val });
+    }
+    else{
+      this.setState({ recent_locations: {} });
+    }
+
+    console.log(val);
+
     axios.get('http://api.openweathermap.org/data/2.5/weather', {
       params: {
         q: "Abuja",
@@ -149,6 +160,7 @@ class MainComp extends Component {
         console.log(error);
       })
   }
+
   render() {
     if (this.state.tray) {
       return (
