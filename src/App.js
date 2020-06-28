@@ -31,7 +31,10 @@ class MainComp extends Component {
     left: 'auto',
     position: 'fixed',
   };
-
+  palm =require('./assets/T_3.svg');
+  mainImg = {
+    backgroundImage: 'url(' + this.palm + ')'
+  }
   toggle = () => {
     if (this.state.tray) {
       this.setState({ tray: false });
@@ -187,7 +190,7 @@ class MainComp extends Component {
     if (this.state.tray) {
       return (
         <div className="App">
-          <div className="mainImg">
+          <div className="mainImg" style={this.mainImg}>
             <h3 className="weather">{this.state.weather.description}{}</h3>
             <h1 className="temp">{Math.floor(this.state.main.feels_like - 273)}<span className="deg">o</span> </h1>
           </div>
