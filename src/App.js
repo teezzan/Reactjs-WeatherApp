@@ -2,22 +2,20 @@ import React, { Component } from 'react';
 import './App.css';
 import { Fab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import Button from "@material-ui/core/Button";
 import Grid from '@material-ui/core/Grid';
 import LocationComp from "./components/locationComponent"
 import SearchBar from "./components/SearchBar"
-import { WiDayCloudyWindy, WiDaySunnyOvercast, WiSunrise, WiThermometer, WiBarometer } from "react-icons/wi";
-// import { AiOutlineClose } from "react-icons/ai";
-// import { FaSearchLocation } from "react-icons/fa";
-// // import Button from 'react-bootstrap/Button';
-// // import InputGroup from 'react-bootstrap/InputGroup';
-// // import FormControl from 'react-bootstrap/FormControl';
-
+import { WiStrongWind, WiHumidity, WiWindDeg, WiThermometer, WiBarometer } from "react-icons/wi";
+var axios = require('axios');
 
 class MainComp extends Component {
   state = {
     temp: 25,
     weather: {},
+    main: {},
     location: "Lagos, Nigeria",
+    wind: {},
     accent: "purple",
     tray: true,
     recent_locations: [
@@ -50,36 +48,86 @@ class MainComp extends Component {
     var tee = document.getElementById("searchText").value;
     console.log(tee);
     //call api and store into state.r
-    var axios = require('axios');
     axios.get('http://api.openweathermap.org/data/2.5/weather', {
       params: {
-        q:tee,
-        APPID:"a7bec659ed63a41dafea39b7664a0618"
+        q: tee,
+        APPID: "a7bec659ed63a41dafea39b7664a0618"
       }
     })
-    .then(function (response) {
-      console.log(response);
-      this.setState({
-        weather: response.data.weather[0],
-        main: response.data.main
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          weather: response.data.weather[0],
+          main: response.data.main,
+          location: `${response.data.name}, ${response.data.sys.country}`,
+          wind: response.data.wind,
+          tray: true
+        });
+
       })
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  }
+      .catch((error) => {
+        console.log(error);
+      })
+  };
   handleremoveRecent = (id) => {
     console.log(`Cancel from ${id} card`);
     const newRecent = this.state.recent_locations.filter(c => c.id !== id);
-    this.setState({recent_locations: newRecent});
+    this.setState({ recent_locations: newRecent });
   };
+  get_val = (name) => {
+
+    axios.get('http://api.openweathermap.org/data/2.5/weather', {
+      params: {
+        q: name,
+        APPID: "a7bec659ed63a41dafea39b7664a0618"
+      }
+    })
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          weather: response.data.weather[0],
+          main: response.data.main,
+          location: `${response.data.name}, ${response.data.sys.country}`,
+          wind: response.data.wind,
+          tray: true
+        });
+
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+  handleOnSelect = (id) => {
+    console.log(id);
+    this.get_val(this.state.recent_locations[id-1].name);
+  }
+  componentDidMount = () => {
+    axios.get('http://api.openweathermap.org/data/2.5/weather', {
+      params: {
+        q: "Abuja",
+        APPID: "a7bec659ed63a41dafea39b7664a0618"
+      }
+    })
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          weather: response.data.weather[0],
+          main: response.data.main,
+          location: `${response.data.name}, ${response.data.sys.country}`,
+          wind: response.data.wind
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
   render() {
     if (this.state.tray) {
       return (
         <div className="App">
           <div className="mainImg">
-            <h3 className="weather">{this.state.weather.description}</h3>
-            <h1 className="temp">{this.state.temp}<span className="deg">o</span> </h1>
+            <h3 className="weather">{this.state.weather.description}{}</h3>
+            <h1 className="temp">{Math.floor(this.state.main.feels_like - 273)}<span className="deg">o</span> </h1>
           </div>
           <Fab style={this.fabstyle} color="primary" size="large" aria-label="add" onClick={this.toggle} >
             <AddIcon />
@@ -93,27 +141,36 @@ class MainComp extends Component {
 
             <Grid container justify="center"
               alignItems="center" spacing={1}>
-              <Grid item xs={2}>
-                <div>10</div>
-                <div><WiSunrise style={{ fontSize: 40, color: this.state.accent }} /></div>
-              </Grid>
-              <Grid item xs={2}>
-                <div>10</div>
+
+              <Grid item xs={3}>
                 <div><WiBarometer style={{ fontSize: 40, color: this.state.accent }} /></div>
+                <div>{this.state.main.pressure} hPa</div>
               </Grid>
               <Grid item xs={2}>
-                <div>10</div>
                 <div><WiThermometer style={{ fontSize: 40, color: this.state.accent }} /></div>
+                <div>{Math.floor(this.state.main.feels_like - 273)}<sup>o</sup>C</div>
               </Grid>
               <Grid item xs={2}>
-                <div>10</div>
-                <div><WiDaySunnyOvercast style={{ fontSize: 40, color: this.state.accent }} /></div>
+                <div><WiHumidity style={{ fontSize: 40, color: this.state.accent }} /></div>
+                <div>{this.state.main.humidity}%</div>
               </Grid>
               <Grid item xs={2}>
-                <div>10</div>
-                <div><WiDayCloudyWindy style={{ fontSize: 40, color: this.state.accent }} /></div>
+                <div><WiStrongWind style={{ fontSize: 40, color: this.state.accent }} /></div>
+                <div>{this.state.wind.speed}m/s</div>
+              </Grid>
+              <Grid item xs={2}>
+                <div><WiWindDeg style={{ fontSize: 40, color: this.state.accent }} /></div>
+                <div>{this.state.wind.deg}<sup>o</sup></div>
+              </Grid>
+              <Grid item xs={5}>
+                <Button color="primary" fullWidth>Today</Button>
+              </Grid>
+              <Grid item xs={5}>
+                <Button color="primary" fullWidth>Tomorrow</Button>
               </Grid>
             </Grid>
+
+
           </div>
         </div>
       );
@@ -122,14 +179,14 @@ class MainComp extends Component {
 
     else {
       return (
-        
+
         <div className="container ">
           <div style={{ alignText: "center" }} >
             <SearchBar onToggle={this.toggle} onSearch={this.handleSearch} />
           </div>
           {
             this.state.recent_locations.map(location => (
-              <LocationComp key={location.id} id={location.id} location={location.name} temp={location.temp} onRemoveRecent={this.handleremoveRecent}/>
+              <LocationComp key={location.id} id={location.id} location={location.name} temp={location.temp} onRemoveRecent={this.handleremoveRecent} onSelect={this.handleOnSelect} />
             ))
           }
         </div>

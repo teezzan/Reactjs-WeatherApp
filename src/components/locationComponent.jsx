@@ -2,15 +2,17 @@ import React, { Component } from "react";
 import "./locationComponent.css";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
-import SearchIcon from "@material-ui/icons/Search";
+import { MdCancel } from "react-icons/md";
 class LocationCard extends Component {
   state = {};
 
- 
+ tee = () =>{
+  console.log("here");
+ }
 
   render() {
     return (
-      <div className=" container my-5 locationCard">
+      <div className=" container my-5 locationCard" onClick={()=> this.props.onSelect(this.props.id)}>
         <Grid container justify="center" alignItems="center" spacing={1}>
           <Grid item xs={8}>
             <h1 style={{ color: "white" }}>{this.props.location}</h1>
@@ -23,7 +25,7 @@ class LocationCard extends Component {
           </Grid>
           <Grid item xs={1}>
           <IconButton className="p-1" onClick={() => this.props.onRemoveRecent(this.props.id)} aria-label="search">
-            <SearchIcon />
+            <MdCancel />
           </IconButton>
           </Grid>
         </Grid>
