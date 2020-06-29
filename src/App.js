@@ -9,6 +9,10 @@ import SearchBar from "./components/SearchBar"
 import { WiStrongWind, WiHumidity, WiWindDeg, WiThermometer, WiBarometer } from "react-icons/wi";
 var axios = require('axios');
 var cancel = false;
+
+function randomint(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
 class MainComp extends Component {
   state = {
     temp: null,
@@ -31,7 +35,8 @@ class MainComp extends Component {
     left: 'auto',
     position: 'fixed',
   };
-  palm =require('./assets/T_3.svg');
+
+  palm = require(`./assets/${randomint(1, 3)}.svg`);
   mainImg = {
     backgroundImage: 'url(' + this.palm + ')'
   }
