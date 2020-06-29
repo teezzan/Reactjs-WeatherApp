@@ -23,7 +23,8 @@ class MainComp extends Component {
     accent: "purple",
     tray: true,
     cancel: false,
-    recent_locations: []
+    recent_locations: [],
+    palm : require(`./assets/${randomint(1, 14)}.svg`)
   }
 
 
@@ -36,9 +37,9 @@ class MainComp extends Component {
     position: 'fixed',
   };
 
-  palm = require(`./assets/${randomint(1, 14)}.svg`);
+  
   mainImg = {
-    backgroundImage: 'url(' + this.palm + ')'
+    backgroundImage: 'url(' + this.state.palm + ')'
   }
   toggle = () => {
     if (this.state.tray) {
@@ -86,7 +87,7 @@ class MainComp extends Component {
           location: `${response.data.name}, ${response.data.sys.country}`,
           wind: response.data.wind,
           tray: true,
-
+          palm: require(`./assets/${randomint(1, 14)}.svg`);
         });
 
 
