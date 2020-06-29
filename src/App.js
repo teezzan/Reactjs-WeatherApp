@@ -36,7 +36,7 @@ class MainComp extends Component {
     position: 'fixed',
   };
 
-  palm = require(`./assets/${randomint(1, 3)}.svg`);
+  palm = require(`./assets/${randomint(1, 14)}.svg`);
   mainImg = {
     backgroundImage: 'url(' + this.palm + ')'
   }
@@ -192,7 +192,7 @@ class MainComp extends Component {
 
     }
     else {
-      this.setState({ recent_locations: {} });
+      //this.setState({ recent_locations: [] });
       this.get_val("London", true);
     }
 
