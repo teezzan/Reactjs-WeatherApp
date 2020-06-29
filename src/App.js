@@ -87,7 +87,7 @@ class MainComp extends Component {
           location: `${response.data.name}, ${response.data.sys.country}`,
           wind: response.data.wind,
           tray: true,
-          palm: require(`./assets/${randomint(1, 14)}.svg`);
+          palm: require(`./assets/${randomint(1, 14)}.svg`)
         });
 
 
@@ -124,7 +124,9 @@ class MainComp extends Component {
       if(which) {
       var imgnum = randomint(1,14);
       var recent_locations = this.state.recent_locations.concat({ id: response.data.id, name: `${response.data.name}, ${response.data.sys.country}`, temp: Math.floor(response.data.main.feels_like - 273), imgnum: imgnum });
-      this.setState({ recent_locations: recent_locations })
+      this.setState({ recent_locations: recent_locations, 
+      palm: require(`./assets/${imgnum}.svg`)
+      })
       localStorage.setItem('recent', JSON.stringify(recent_locations))
 }
       })
