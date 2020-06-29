@@ -103,7 +103,7 @@ class MainComp extends Component {
     localStorage.setItem('recent', JSON.stringify(newRecent));
     cancel = true
   };
-  get_val = (name) => {
+  get_val = (name, which = false) => {
 
     axios.get('http://api.openweathermap.org/data/2.5/weather', {
       params: {
@@ -120,7 +120,12 @@ class MainComp extends Component {
           wind: response.data.wind,
           tray: true
         });
-
+      if(which) {
+      var imgnum = randomint(1,14);
+      recent_locations = this.state.recent_locations.concat({ id: response.data.id, name: `${response.data.name}, ${response.data.sys.country}`, temp: Math.floor(response.data.main.feels_like - 273), imgnum: imgnum });
+      this.setState({ recent_locations: recent_locations })
+      localStorage.setItem('recent', JSON.stringify(recent_locations))
+}
       })
       .catch((error) => {
         console.log(error);
@@ -188,7 +193,7 @@ class MainComp extends Component {
     }
     else {
       this.setState({ recent_locations: {} });
-      this.get_val("London");
+      this.get_val("London", true);
     }
 
 
@@ -257,12 +262,13 @@ class MainComp extends Component {
           <div style={{ alignText: "center" }} >
             <SearchBar onToggle={this.toggle} onSearch={this.handleSearch} />
           </div>
-        { this.state.recent_locations !=={} &&
+      //  { this.state.recent_locations !=={} &&
           {
             this.state.recent_locations.map(location => (
               <LocationComp key={location.id} id={location.id} imgnum={location.imgnum} location={location.name} temp={location.temp} onRemoveRecent={this.handleremoveRecent} onSelect={this.handleOnSelect} />
             ))
-          }}
+          }
+//}
         </div>
       );
     }
