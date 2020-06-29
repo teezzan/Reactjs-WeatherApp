@@ -67,8 +67,9 @@ class MainComp extends Component {
         const newRecent = this.state.recent_locations.filter(c => c.id === id);
         console.log(newRecent.length);
         var num = newRecent.length;
+        var imgnum = randomint(1,14);
         if (num === 0) {
-          recent_locations = this.state.recent_locations.concat({ id: response.data.id, name: `${response.data.name}, ${response.data.sys.country}`, temp: Math.floor(response.data.main.feels_like - 273) });
+          recent_locations = this.state.recent_locations.concat({ id: response.data.id, name: `${response.data.name}, ${response.data.sys.country}`, temp: Math.floor(response.data.main.feels_like - 273), imgnum: imgnum });
 
           if (recent_locations.length > 5) {
             recent_locations.splice(0, 1);
@@ -155,7 +156,8 @@ class MainComp extends Component {
           var payload = {
             id: response.data.list[i].id,
             temp: Math.floor(response.data.list[i].main.feels_like),
-            name: `${response.data.list[i].name}, ${response.data.list[i].sys.country}`
+            name: `${response.data.list[i].name}, ${response.data.list[i].sys.country}`,
+            imgnum: randomint(1,14)
           }
           recent_locations.push(payload);
         }
@@ -256,7 +258,7 @@ class MainComp extends Component {
           </div>
           {
             this.state.recent_locations.map(location => (
-              <LocationComp key={location.id} id={location.id} location={location.name} temp={location.temp} onRemoveRecent={this.handleremoveRecent} onSelect={this.handleOnSelect} />
+              <LocationComp key={location.id} id={location.id} imgnum={location.imgnum} location={location.name} temp={location.temp} onRemoveRecent={this.handleremoveRecent} onSelect={this.handleOnSelect} />
             ))
           }
         </div>

@@ -4,23 +4,21 @@ import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 import { MdCancel } from "react-icons/md";
 
-function randomint(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+
 class LocationCard extends Component {
   state = {};
 
  tee = () =>{
   console.log("here");
  }
- palm =require(`./assets/${randomint(1,3)}.svg`);
+ palm =require(`../assets/${this.props.imgnum}.svg`);
  locationCard = {
    backgroundImage: 'url(' + this.palm + ')'
  }
 
   render() {
     return (
-      <div className=" container my-5 locationCard" style={locationCard} onClick={()=> this.props.onSelect(this.props.id)}>
+      <div className=" container my-5 locationCard" style={this.locationCard} onClick={()=> this.props.onSelect(this.props.id)}>
         <Grid container justify="center" alignItems="center" spacing={1}>
           <Grid item xs={8}>
             <h1 style={{ color: "white" }}>{this.props.location}</h1>
