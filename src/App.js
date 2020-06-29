@@ -122,7 +122,7 @@ class MainComp extends Component {
         });
       if(which) {
       var imgnum = randomint(1,14);
-      recent_locations = this.state.recent_locations.concat({ id: response.data.id, name: `${response.data.name}, ${response.data.sys.country}`, temp: Math.floor(response.data.main.feels_like - 273), imgnum: imgnum });
+      var recent_locations = this.state.recent_locations.concat({ id: response.data.id, name: `${response.data.name}, ${response.data.sys.country}`, temp: Math.floor(response.data.main.feels_like - 273), imgnum: imgnum });
       this.setState({ recent_locations: recent_locations })
       localStorage.setItem('recent', JSON.stringify(recent_locations))
 }
