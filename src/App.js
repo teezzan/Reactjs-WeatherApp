@@ -257,11 +257,12 @@ class MainComp extends Component {
           <div style={{ alignText: "center" }} >
             <SearchBar onToggle={this.toggle} onSearch={this.handleSearch} />
           </div>
+        { this.state.recent_locations !=={} &&
           {
             this.state.recent_locations.map(location => (
               <LocationComp key={location.id} id={location.id} imgnum={location.imgnum} location={location.name} temp={location.temp} onRemoveRecent={this.handleremoveRecent} onSelect={this.handleOnSelect} />
             ))
-          }
+          }}
         </div>
       );
     }
