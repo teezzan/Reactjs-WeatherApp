@@ -188,6 +188,7 @@ class MainComp extends Component {
     }
     else {
       this.setState({ recent_locations: {} });
+      this.get_val("London");
     }
 
 
