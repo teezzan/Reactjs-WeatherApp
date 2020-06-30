@@ -55,7 +55,7 @@ class MainComp extends Component {
     var tee = document.getElementById("searchText").value;
     console.log(tee);
     //call api and store into state.r
-    axios.get('http://api.openweathermap.org/data/2.5/weather', {
+    axios.get('https://api.openweathermap.org/data/2.5/weather', {
       params: {
         q: tee,
         APPID: "a7bec659ed63a41dafea39b7664a0618"
@@ -106,7 +106,7 @@ class MainComp extends Component {
   };
   get_val = (name, which = false) => {
 
-    axios.get('http://api.openweathermap.org/data/2.5/weather', {
+    axios.get('https://api.openweathermap.org/data/2.5/weather', {
       params: {
         q: name,
         APPID: "a7bec659ed63a41dafea39b7664a0618"
@@ -151,7 +151,7 @@ class MainComp extends Component {
     for (var i = 0; i < id.length; i++) {
       id_pld += `${id[i]},`
     }
-    axios.get('http://api.openweathermap.org/data/2.5/group', {
+    axios.get('https://api.openweathermap.org/data/2.5/group', {
       params: {
         id: id_pld,
         APPID: "a7bec659ed63a41dafea39b7664a0618",
