@@ -9,11 +9,13 @@ import SearchBar from "./components/SearchBar"
 import { WiStrongWind, WiHumidity, WiWindDeg, WiThermometer, WiBarometer } from "react-icons/wi";
 var axios = require('axios');
 var cancel = false;
-
 function randomint(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
+var palm = require(`./assets/${randomint(1, 14)}.svg`);
+
 class MainComp extends Component {
+
   state = {
     temp: null,
     weather: {},
@@ -24,7 +26,9 @@ class MainComp extends Component {
     tray: true,
     cancel: false,
     recent_locations: [],
-    palm : require(`./assets/${randomint(1, 14)}.svg`)
+    palm : palm,
+    backgroundImage: 'url(' + palm + ')'
+  }
   }
 
 
@@ -81,13 +85,16 @@ class MainComp extends Component {
 
 
         // }
+        var palm = require(`./assets/${imgnum}.svg`);
+
         this.setState({
           weather: response.data.weather[0],
           main: response.data.main,
           location: `${response.data.name}, ${response.data.sys.country}`,
           wind: response.data.wind,
           tray: true,
-          palm: require(`./assets/${randomint(1, 14)}.svg`)
+          palm: palm,
+          backgroundImage: 'url(' + palm + ')'
         });
 
 
@@ -123,9 +130,11 @@ class MainComp extends Component {
         });
       if(which) {
       var imgnum = randomint(1,14);
+      var palm = require(`./assets/${imgnum}.svg`);
       var recent_locations = this.state.recent_locations.concat({ id: response.data.id, name: `${response.data.name}, ${response.data.sys.country}`, temp: Math.floor(response.data.main.feels_like - 273), imgnum: imgnum });
       this.setState({ recent_locations: recent_locations, 
-      palm: require(`./assets/${imgnum}.svg`)
+      palm: palm, 
+      backgroundImage: 'url(' + palm + ')'
       })
       localStorage.setItem('recent', JSON.stringify(recent_locations))
 }
@@ -206,7 +215,7 @@ class MainComp extends Component {
     if (this.state.tray) {
       return (
         <div className="App">
-          <div className="mainImg" style={this.mainImg}>
+          <div className="mainImg" style={{backgroundImage: this.state.backgroundImage}}>
             <h3 className="weather">{this.state.weather.description}{}</h3>
             <h1 className="temp">{Math.floor(this.state.main.feels_like - 273)}<span className="deg">o</span> </h1>
           </div>
