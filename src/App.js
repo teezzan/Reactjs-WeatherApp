@@ -29,7 +29,7 @@ class MainComp extends Component {
     palm: palm,
     backgroundImage: 'url(' + palm + ')'
   }
-}
+
 
 
 fabstyle = {
