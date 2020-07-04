@@ -209,7 +209,7 @@ class MainComp extends Component {
     }
 
 
-  }
+  };
 
   render() {
     if (this.state.tray) {
