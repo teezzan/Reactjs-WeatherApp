@@ -180,7 +180,7 @@ class MainComp extends Component {
   componentDidMount = () => {
 
     const val = JSON.parse(localStorage.getItem('recent'))
-    if (val != null) {
+    if (val != null && val !== {}) {
       this.setState({ recent_locations: val });
       console.log(val);
 
