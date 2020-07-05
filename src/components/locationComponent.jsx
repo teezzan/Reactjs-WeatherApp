@@ -11,7 +11,7 @@ class LocationCard extends Component {
  tee = () =>{
   console.log("here");
  }
- palm =require(`../assets/${this.props.imgnum}.svg`);
+ palm = require(`../../public/${this.props.imgnum}.svg`);
  locationCard = {
    backgroundImage: 'url(' + this.palm + ')'
  }
